@@ -40,5 +40,5 @@ Untuk menjalankan proyek ini secara penuh (dengan integrasi Gemini API yang sesu
     ```
     ```bash
     pip install python-dotenv
-    ~~~
+    ```
 3.  **Kunci API Gemini:** Anda harus memiliki kunci API Gemini yang valid. Kunci ini harus diatur di dalam `modules/ai_analyze.py` untuk mengaktifkan fitur analisis AI secara nyata.
