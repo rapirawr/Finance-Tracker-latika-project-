@@ -2,17 +2,25 @@ from .utils import load_transactions, format_currency, clear, Colors, print_colo
 from .summary import summarize_transactions
 import time
 import json
+import os
+from dotenv import load_dotenv
 
-from google import genai
-client = genai.Client(api_key="AIzaSyAhjZxdt6MRM_pI0BPr_-BlO1ji3qZRv1U")
-def call_gemini_api(prompt):
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=[prompt]
-    )
-    return response.text
+load_dotenv() 
 
-def call_gemini_api_placeholder(financial_data):
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+try:
+    from google import genai
+    if GEMINI_API_KEY:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+    else:
+        client = None 
+except ImportError:
+    client = None
+except Exception:
+    client = None
+
+def call_gemini_api_simulasi(financial_data):
     
     data = json.loads(financial_data)
     total_in = data.get("total_income", 0)
@@ -20,31 +28,48 @@ def call_gemini_api_placeholder(financial_data):
     balance = total_in - total_out
     by_cat = data.get("expense_breakdown", {})
     
-    time.sleep(2) 
+    time.sleep(1.5) 
     
     analysis = []
     
+    analysis.append("\n**Kesimpulan Gemini AI (Simulasi):**")
     if balance > 0 and balance >= total_in * 0.2:
-        analysis.append(f"🟢 **Posisi Keuangan Sangat Baik:** Saldo Anda positif dan berhasil menyimpan lebih dari 20% dari total pemasukan. Ini adalah indikasi *budgeting* yang kuat.")
+        analysis.append(f"🟢 Posisi Keuangan Sangat Baik: Anda berhasil menyimpan 20%+ dari pemasukan.")
     elif balance > 0:
-        analysis.append(f"🟡 **Posisi Keuangan Sehat:** Saldo Anda positif ({format_currency(balance)}{Colors.ENDC}). Terus pertahankan momentum ini.")
+        analysis.append(f"🟡 Posisi Keuangan Sehat: Saldo Anda positif ({format_currency(balance)}{Colors.ENDC}).")
     else:
-        analysis.append(f"🔴 **Peringatan Saldo:** Saldo Anda negatif ({format_currency(balance)}{Colors.ENDC}) atau mendekati nol. Ini perlu perhatian serius.")
-
-    if by_cat:
-        top_cat, top_amt = max(by_cat.items(), key=lambda item: item[1])
-        total_expense = sum(by_cat.values())
-        perc = (top_amt / total_expense) * 100
-        
-        analysis.append(f"\n**Fokus Pengeluaran:** Kategori **'{top_cat}'** adalah yang terbesar, menyumbang **{perc:.0f}%** dari total pengeluaran.")
-        
-        if perc > 40:
-             analysis.append(f"💡 **Saran Khusus:** Persentase pengeluaran {top_cat} sangat tinggi. Prioritaskan mencari alternatif hemat atau batasi pengeluaran di kategori ini.")
-        elif perc > 20:
-             analysis.append(f"💡 **Saran Khusus:** Pengeluaran {top_cat} masih dominan. Cek ulang apakah ada pemborosan kecil harian di kategori ini.")
-             
-
+        analysis.append(f"🔴 Peringatan Saldo: Saldo Anda negatif ({format_currency(balance)}{Colors.ENDC}). Butuh review segera.")
+    
+    analysis.append("Coba tambahkan lebih banyak data untuk analisis yang lebih mendalam saat API diaktifkan.")
+    
     return "\n".join(analysis)
+
+
+def get_ai_analysis(financial_data_json):
+    
+    data = json.loads(financial_data_json)
+    
+    if client:
+        try:
+            print_color("--- Memanggil Gemini API Nyata... ---", Colors.OKCYAN)
+            
+            prompt = f"""
+            Analisis data keuangan berikut dalam bahasa Indonesia. Berikan ringkasan dan 2-3 saran spesifik. 
+            Data: Total Pemasukan: {data['total_income']}, Total Pengeluaran: {data['total_expense']}, 
+            Breakdown Pengeluaran: {json.dumps(data['expense_breakdown'])}.
+            """
+            
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=[prompt]
+            )
+            return response.text
+            
+        except Exception as e:
+            print_color(f"❌ Gemini API gagal: {e}. Menggunakan mode simulasi.", Colors.FAIL)
+            pass
+            
+    return call_gemini_api_simulasi(financial_data_json)
 
 
 def ai_financial_analysis():
@@ -74,10 +99,11 @@ def ai_financial_analysis():
 
     try:
         data_json = json.dumps(financial_data)
-        ai_response = call_gemini_api_placeholder(data_json) 
+        ai_response = get_ai_analysis(data_json) 
         
-        print_color(ai_response, Colors.ENDC) 
+        print_color("\n===== Hasil Analisis Gemini AI =====", Colors.OKBLUE)
+        print(ai_response) 
         print_color("======================================", Colors.OKBLUE)
         
     except Exception as e:
-        print_color(f"❌ Error saat memanggil AI: {e}", Colors.FAIL)
+        print_color(f"❌ Error saat menjalankan analisis: {e}", Colors.FAIL)
