@@ -1,44 +1,52 @@
 # 🤖 AI Personal Finance Tracker (A-PFT)
 
-## Deskripsi Proyek
+## Ketentuan Teknis
+* Karya ini orisinal dan buatan sendiri.
+* Menggunakan library eksternal (`google-genai`, `python-dotenv`) yang relevan untuk fitur AI dan keamanan API.
+* Repositori ini berisi seluruh source code dan file pendukung.
 
-**AI Personal Finance Tracker (A-PFT)** adalah aplikasi berbasis konsol Python yang dirancang untuk membantu pengguna melacak, menganalisis, dan mengelola keuangan pribadi mereka secara cerdas.
+---
 
-Berbeda dari aplikasi pelacak keuangan konvensional, A-PFT menyertakan modul kecerdasan buatan (*AI-powered*) yang ditenagai oleh Gemini API (simulasi) untuk memberikan wawasan dan rekomendasi keuangan yang lebih mendalam dan personal. Selain itu, antarmuka konsol telah ditingkatkan dengan kode warna ANSI untuk pengalaman pengguna (UX) yang lebih menarik dan informatif, memudahkan pembacaan data penting.
+## Judul dan Deskripsi Singkat Karya
 
-## Fitur Unggulan
+**AI Personal Finance Tracker (A-PFT)** adalah aplikasi pelacak keuangan pribadi berbasis konsol Python. Aplikasi ini membantu pengguna mencatat, meringkas, dan menganalisis kebiasaan finansial mereka. Fitur utamanya adalah integrasi **Gemini API** (mode simulasi aktif jika kunci tidak tersedia) yang memberikan analisis dan saran mendalam mengenai kesehatan keuangan pengguna. Antarmuka konsol ditingkatkan secara signifikan dengan kode warna ANSI untuk memudahkan pembacaan dan pemahaman data secara cepat.
 
-* **Pencatatan Transaksi Cepat:** Mencatat pemasukan dan pengeluaran dengan kategori, nominal, tanggal, dan catatan.
-* **Ringkasan Keuangan Instan:** Melihat saldo saat ini dan *breakdown* visual (menggunakan bar grafik) dari pengeluaran berdasarkan kategori.
-* **Analisis Kebiasaan:** Menganalisis kebiasaan pengeluaran, menghitung rata-rata harian, dan mendeteksi tren pengeluaran (Naik, Turun, Stabil).
-* **Prediksi Akhir Bulan:** Memprediksi total pengeluaran dan saldo akhir bulan berdasarkan rata-rata pengeluaran harian yang tercatat.
-* **Saran Penghematan:** Memberikan saran yang ditargetkan untuk penghematan berdasarkan kategori pengeluaran terbesar atau mingguan yang fluktuatif.
-* **⭐ Analisis AI (Gemini Powered):** Fitur utama yang menggunakan data ringkasan keuangan untuk menghasilkan interpretasi kondisi finansial, memberikan diagnosis kesehatan keuangan, dan saran strategis yang lebih holistik.
-* **✨ Tampilan Konsol Interaktif:** Menggunakan kode warna ANSI (Hijau, Merah, Kuning) untuk memvisualisasikan status keuangan secara instan (misalnya: Saldo positif/negatif, Pengeluaran tertinggi, Tren risiko).
+## Cara Menjalankan/Mengakses Karya Tersebut
 
-## Struktur Proyek
+### Prasyarat
+1.  **Python 3.x** terinstal.
+2.  Akses ke Terminal/Command Prompt.
 
-Proyek ini terbagi menjadi beberapa modul Python yang terstruktur:
-
-| File | Deskripsi |
-| :--- | :--- |
-| `main.py` | Modul utama yang menjalankan menu aplikasi dan mengontrol alur program. |
-| `modules/utils.py` | Berisi fungsi utilitas dasar, manajemen file JSON, pemformatan mata uang, dan definisi **kode warna ANSI** (untuk UX yang lebih baik). |
-| `modules/summary.py` | Menangani fungsi penambahan transaksi, menampilkan ringkasan, dan daftar semua transaksi. |
-| `modules/analyze.py` | Berisi fungsi analisis kebiasaan pengeluaran dan prediksi saldo akhir bulan. |
-| `modules/suggest.py` | Menghasilkan saran penghematan berdasarkan statistik pengeluaran. |
-| `modules/ai_analyze.py` | Modul baru yang mengambil data ringkasan dan memanggil **Gemini API (simulasi)** untuk analisis keuangan mendalam. |
-
-## Persyaratan (Prasyarat)
-
-Untuk menjalankan proyek ini secara penuh (dengan integrasi Gemini API yang sesungguhnya):
-
-1.  **Python 3.x**
-2.  **Library :**
+### Langkah-langkah Instalasi
+1.  **Clone Repositori** (Asumsi proyek Anda sudah di repositori):
     ```bash
-    pip install google-genai
+    git clone https://github.com/rapirawr/Finance-Tracker-with-AI-intergration.git
+    cd Finance-Tracker-with-AI-intergration
     ```
+2.  **Instal Dependensi:**
     ```bash
-    pip install python-dotenv
+    pip install -r requirements.txt
     ```
-3.  **Kunci API Gemini:** Anda harus memiliki kunci API Gemini yang valid. Kunci ini harus diatur di dalam `modules/ai_analyze.py` untuk mengaktifkan fitur analisis AI secara nyata.
+3.  **Konfigurasi API Key (Opsional untuk fitur AI nyata):**
+    * Buat file bernama `.env` di direktori utama proyek.
+    * Tambahkan kunci API Gemini Anda di dalam file tersebut:
+        ```
+        GEMINI_API_KEY="AIzaSy...KunciAndaDiSini...U"
+        ```
+    * *(Jika file `.env` tidak dibuat, fitur AI akan berjalan dalam mode simulasi)*.
+4.  **Jalankan Aplikasi:**
+    ```bash
+    python main.py
+    ```
+
+### Cara Mengakses
+Aplikasi akan menampilkan menu berbasis angka (1-8). Pilih angka yang sesuai, misalnya `7` untuk mendapatkan Analisis Keuangan dari AI.
+
+## Teknologi yang Digunakan
+
+* **Bahasa Pemrograman:** Python
+* **Pustaka Utama:**
+    * `google-genai` (Untuk fitur AI dan analisis data)
+    * `python-dotenv` (Untuk mengamankan dan menyembunyikan kunci API)
+    * `datetime`, `json`, `os`, `statistics` (Pustaka standar Python)
+* **Antarmuka:** Konsol/Terminal dengan kode warna ANSI.
