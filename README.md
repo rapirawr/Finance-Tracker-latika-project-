@@ -44,16 +44,9 @@ Pastikan Anda telah menginstal:
     ```bash
     pip install -r requirements.txt
     ```
-
-3.  **Setup Kunci API (Opsional, untuk Analisis Nyata):**
-    * Buat *file* bernama **`.env`** di direktori utama proyek.
-    * Tambahkan Kunci API Gemini Anda di dalamnya dengan format:
-        ```
-        GEMINI_API_KEY="AIzaSy...kunci_anda_di_sini"
-        ```
     *Jika Anda tidak memiliki Kunci API, aplikasi akan tetap berjalan dalam mode simulasi.*
 
-4.  **Jalankan Aplikasi:**
+3.  **Jalankan Aplikasi:**
     ```bash
     python main.py
     ```
