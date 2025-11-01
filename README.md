@@ -1,52 +1,72 @@
 # 🤖 AI Personal Finance Tracker (A-PFT)
 
-## Ketentuan Teknis
-* Karya ini orisinal dan buatan sendiri.
-* Menggunakan library eksternal (`google-genai`, `python-dotenv`) yang relevan untuk fitur AI dan keamanan API.
-* Repositori ini berisi seluruh source code dan file pendukung.
+Aplikasi pelacak keuangan pribadi berbasis konsol Python yang terintegrasi dengan Gemini AI untuk analisis keuangan mendalam.
+
+## 🌟 Fitur Utama
+
+* **Pencatatan Transaksi:** Mencatat pemasukan dan pengeluaran harian.
+* **Ringkasan Cepat:** Menyajikan total saldo dan pengeluaran per kategori.
+* **Analisis AI:** Integrasi Gemini API untuk mendapatkan ringkasan keuangan dan saran spesifik yang **Gen Z *Vibe*** (menggunakan kode warna ANSI untuk tampilan terminal yang lebih baik).
+* **Keamanan:** Menggunakan `python-dotenv` untuk mengelola Kunci API.
+* **Mode Simulasi:** Jika Kunci API Gemini tidak tersedia, analisis akan otomatis berjalan dalam mode simulasi.
 
 ---
 
-## Judul dan Deskripsi Singkat Karya
+## 🛠️ Ketentuan Teknis dan Teknologi
 
-**AI Personal Finance Tracker (A-PFT)** adalah aplikasi pelacak keuangan pribadi berbasis konsol Python. Aplikasi ini membantu pengguna mencatat, meringkas, dan menganalisis kebiasaan finansial mereka. Fitur utamanya adalah integrasi **Gemini API** (mode simulasi aktif jika kunci tidak tersedia) yang memberikan analisis dan saran mendalam mengenai kesehatan keuangan pengguna. Antarmuka konsol ditingkatkan secara signifikan dengan kode warna ANSI untuk memudahkan pembacaan dan pemahaman data secara cepat.
+| Teknologi | Keterangan |
+| :--- | :--- |
+| **Bahasa** | Python 3.x |
+| **AI/API** | `google-genai` (Gemini 2.5 Flash Model) |
+| **Keamanan** | `python-dotenv` |
+| **Antarmuka** | Konsol/Terminal dengan Kode Warna ANSI |
+| **Cacing (*Caching*)** | Menggunakan `__pycache__` untuk mempercepat waktu *loading* modul. |
 
-## Cara Menjalankan/Mengakses Karya Tersebut
+---
+
+## 🚀 Cara Menjalankan Aplikasi
 
 ### Prasyarat
-1.  **Python 3.x** terinstal.
+
+Pastikan Anda telah menginstal:
+1.  **Python 3.x**
 2.  Akses ke Terminal/Command Prompt.
 
 ### Langkah-langkah Instalasi
-1.  **Clone Repositori** (Asumsi proyek Anda sudah di repositori):
+
+1.  **Clone Repositori:**
     ```bash
-    git clone https://github.com/rapirawr/Finance-Tracker-with-AI-intergration.git
+    git clone [https://github.com/rapirawr/Finance-Tracker-with-AI-intergration.git](https://github.com/rapirawr/Finance-Tracker-with-AI-intergration.git)
     cd Finance-Tracker-with-AI-intergration
     ```
+
 2.  **Instal Dependensi:**
     ```bash
     pip install -r requirements.txt
     ```
-3.  **Konfigurasi API Key (Opsional untuk fitur AI nyata):**
-    * Buat file bernama `.env` di direktori utama proyek.
-    * Tambahkan kunci API Gemini Anda di dalam file tersebut:
+
+3.  **Setup Kunci API (Opsional, untuk Analisis Nyata):**
+    * Buat *file* bernama **`.env`** di direktori utama proyek.
+    * Tambahkan Kunci API Gemini Anda di dalamnya dengan format:
         ```
-        GEMINI_API_KEY="AIzaSy...KunciAndaDiSini...U"
+        GEMINI_API_KEY="AIzaSy...kunci_anda_di_sini"
         ```
-    * *(Jika file `.env` tidak dibuat, fitur AI akan berjalan dalam mode simulasi)*.
+    *Jika Anda tidak memiliki Kunci API, aplikasi akan tetap berjalan dalam mode simulasi.*
+
 4.  **Jalankan Aplikasi:**
     ```bash
     python main.py
     ```
 
 ### Cara Mengakses
-Aplikasi akan menampilkan menu berbasis angka (1-8). Pilih angka yang sesuai, misalnya `7` untuk mendapatkan Analisis Keuangan dari AI.
+Setelah dijalankan, aplikasi akan menampilkan menu utama berbasis angka (1-8). Pilih angka yang sesuai, misalnya:
+* `3` untuk Menambah Transaksi.
+* `7` untuk mendapatkan **Analisis Keuangan AI**.
 
-## Teknologi yang Digunakan
+---
 
-* **Bahasa Pemrograman:** Python
-* **Pustaka Utama:**
-    * `google-genai` (Untuk fitur AI dan analisis data)
-    * `python-dotenv` (Untuk mengamankan dan menyembunyikan kunci API)
-    * `datetime`, `json`, `os`, `statistics` (Pustaka standar Python)
-* **Antarmuka:** Konsol/Terminal dengan kode warna ANSI.
+## 💾 Kegunaan Caching (`__pycache__`)
+
+Ketika modul aplikasi diimpor (seperti `.utils` atau `.summary`), Python secara otomatis menghasilkan *folder* `__pycache__` yang berisi *bytecode* terkompilasi (`.pyc` files).
+
+* **Manfaat:** Ini mempercepat *waktu loading* aplikasi pada eksekusi berikutnya, karena Python dapat melewati langkah kompilasi dari kode sumber dan langsung menjalankan *bytecode* yang sudah siap.
