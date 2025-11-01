@@ -1,5 +1,5 @@
 from modules.utils import ensure_data_file, prompt, clear, pause, Colors, print_color
-from modules.summary import add_tx, show_summary, list_tx
+from modules.summary import add_tx, show_summary, list_tx, delete_last_tx
 from modules.analyze import show_habits, predict_end
 from modules.suggest import show_suggestions
 from modules.ai_analyze import run_ai_analysis
@@ -18,13 +18,14 @@ def menu():
     print(f"{Colors.BOLD}5.{Colors.ENDC} Prediksi saldo akhir bulan")
     print(f"{Colors.BOLD}6.{Colors.ENDC} List semua transaksi")
     print(f"{Colors.BOLD}7.{Colors.ENDC} AI Analisis")
-    print_color(f"{Colors.BOLD}8.{Colors.ENDC} Keluar{Colors.BOLD}", Colors.OKGREEN) 
+    print(f"{Colors.BOLD}8.{Colors.ENDC} Hapus transaksi terakhir")
+    print_color(f"{Colors.BOLD}9.{Colors.ENDC} Keluar{Colors.BOLD}", Colors.OKGREEN)
     print_color("-" * 40, Colors.OKBLUE)
 
 def main():
     while True:
         menu()
-        choice = prompt("Pilih menu (1-8)") 
+        choice = prompt("Pilih menu (1-9)")
         if choice == "1":
             add_tx()
             pause()
@@ -44,9 +45,12 @@ def main():
             list_tx()
             pause()
         elif choice == "7":
-            run_ai_analysis() 
+            run_ai_analysis()
             pause()
         elif choice == "8":
+            delete_last_tx()
+            pause()
+        elif choice == "9":
             print_color("\nDadahhh 👋 Sampai jumpa lagi!", Colors.OKBLUE)
             break
         else:

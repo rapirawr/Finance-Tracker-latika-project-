@@ -10,6 +10,7 @@ def show_habits():
     if not expenses:
         print_color("Belum ada pengeluaran buat dianalisis.", Colors.WARNING)
         return
+        
     by_cat = {}
     daily = {}
     for e in expenses:
@@ -18,18 +19,24 @@ def show_habits():
         by_cat[cat] = by_cat.get(cat,0) + amt
         d = e.get("date")
         daily[d] = daily.get(d,0) + amt
+        
     top_cat, top_amt = max(by_cat.items(), key=lambda x: x[1])
     avg_daily = statistics.mean(daily.values()) if daily else 0
+    med = statistics.median(daily.values()) if daily else 0
+    
+    top_amt_str = f"{Colors.FAIL}{format_currency(top_amt)}{Colors.ENDC}"
+    avg_daily_str = f"{format_currency(round(avg_daily))}{Colors.ENDC}"
+    med_str = f"{format_currency(round(med))}{Colors.ENDC}"
     
     print_color("===== Analisis Kebiasaan =====", Colors.HEADER)
-    print(f"Kategori pengeluaran terbanyak : {Colors.BOLD}{Colors.FAIL}{top_cat}{Colors.ENDC} ({format_currency(top_amt)}{Colors.ENDC})")
-    print(f"Rata-rata pengeluaran per-hari  : {format_currency(round(avg_daily))}{Colors.ENDC}")
+    print(f"Kategori pengeluaran terbanyak : {Colors.BOLD}{Colors.FAIL}{top_cat}{Colors.ENDC} ({top_amt_str})")
+    print(f"Rata-rata pengeluaran per-hari  : {avg_daily_str}")
+    
     trend = detect_trend(sorted(daily.items()))
     
     trend_color = Colors.FAIL if trend == "Naik" else Colors.OKGREEN if trend == "Turun" else Colors.WARNING
     print(f"Tren terakhir                    : {trend_color}{Colors.BOLD}{trend}{Colors.ENDC}")
-    med = statistics.median(daily.values()) if daily else 0
-    print(f"Median pengeluaran per-hari     : {format_currency(round(med))}{Colors.ENDC}")
+    print(f"Median pengeluaran per-hari     : {med_str}")
     print("")
 
 def detect_trend(daily_items):
@@ -52,14 +59,19 @@ def predict_end():
     today = datetime.date.today()
     first_of_month = today.replace(day=1)
     days_passed = (today - first_of_month).days + 1
+    
     try:
         next_month = first_of_month.replace(month=first_of_month.month%12+1)
     except ValueError: 
         next_month = first_of_month.replace(year=first_of_month.year+1, month=1)
+        
     days_in_month = (next_month - first_of_month).days
     
-    avg_daily = (total_out / days_passed) if days_passed>0 else 0
-    predicted_out = avg_daily * days_in_month
+    current_month_expenses = sum(d.get("amount", 0) for d in data if d.get("type") != "income" and d.get("date") >= first_of_month.isoformat())
+    
+    avg_daily_month = (current_month_expenses / days_passed) if days_passed > 0 else 0
+    
+    predicted_out = avg_daily_month * days_in_month
     balance = total_in - total_out
     predicted_balance = total_in - predicted_out
     
@@ -68,7 +80,7 @@ def predict_end():
 
     print_color("===== Prediksi Saldo Akhir Bulan =====", Colors.HEADER)
     print(f"Saldo sekarang                 : {balance_color}{format_currency(balance)}{Colors.ENDC}")
-    print(f"Rata-rata pengeluaran/hari     : {format_currency(round(avg_daily))}{Colors.ENDC}")
+    print(f"Rata-rata pengeluaran/hari     : {format_currency(round(avg_daily_month))}{Colors.ENDC}")
     print(f"Perkiraan pengeluaran bulan ini: {format_currency(round(predicted_out))}{Colors.ENDC}")
     print(f"Perkiraan saldo akhir bulan      : {predicted_color}{Colors.BOLD}{format_currency(round(predicted_balance))}{Colors.ENDC}")
     print("")
