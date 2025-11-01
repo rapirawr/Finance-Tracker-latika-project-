@@ -53,7 +53,7 @@ Pastikan Anda telah menginstal:
 
 ### Cara Mengakses
 Setelah dijalankan, aplikasi akan menampilkan menu utama berbasis angka (1-8). Pilih angka yang sesuai, misalnya:
-* `3` untuk Menambah Transaksi.
+* `1` untuk Menambah Transaksi.
 * `7` untuk mendapatkan **Analisis Keuangan AI**.
 
 ---
